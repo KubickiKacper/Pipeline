@@ -3,16 +3,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
     <body>
-    <div id="Title">
-      Classifiers Compare
-    </div>
-      <ul>
-      {% for i in range(0, len) %}
-        <li>{{ iris['data'][i] }}  -  {{iris['target_names'][iris['target'][i]]}}</li>
-      {% endfor %}
-        <br><br>
-        <h2>NBC: Number of mislabeled points out of a total {{GNBXtestshape}} points : {{GNBsum}}</h2>
-        <h2>KNC: Number of mislabeled points out of a total {{GNBXtestshape}} points : {{KNCsum}}</h2>
-        <h2>MLPC: Number of mislabeled points out of a total {{GNBXtestshape}} points : {{MLPCsum}}</h2>
-      </ul>
+    <div id="Title" >Some Random Data </div>
+<center>
+        <img src="{{ picture }}" style="width: 900px; height: 700px;">
+</center>
+
     </body>
