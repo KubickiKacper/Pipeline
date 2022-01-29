@@ -55,10 +55,12 @@ stages:
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
+    
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
       artifact: drop
+    
 
 - stage: Deploy
   displayName: 'Deploy Web App'
@@ -66,11 +68,22 @@ stages:
   condition: succeeded()
   jobs:
   - deployment: DeploymentJob
-  steps:
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'kk48302-pipeline'
-      appType: 'webApp'
-      WebAppName: 'kk48302-pipeline'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    pool:
+      vmImage: $(vmImageName)
+    environment: $(environmentName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '$(pythonVersion)'
+            displayName: 'Use Python version'
+
+          - task: AzureWebApp@1
+            displayName: 'kk48302-pipeline'
+            inputs:
+              azureSubscription: $(azureServiceConnectionId)
+              appName: $(webAppName)
+              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
