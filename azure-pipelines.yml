@@ -8,16 +8,16 @@ trigger:
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
-  azureServiceConnectionId: '005f9c94-b144-46ae-b2cb-ca549398677b'
+  azureServiceConnectionId: '983b34ce-0807-414a-9c3f-6eeada935260'
 
   # Web app name
-  webAppName: 'kk48302-pipeline'
+  webAppName: 'test-app-kk48302'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
   # Environment name
-  environment: 'Myenvironment'
+  environmentName: 'test-app-kk48302'
 
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
@@ -55,12 +55,10 @@ stages:
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
-    
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
       artifact: drop
-    
 
 - stage: Deploy
   displayName: 'Deploy Web App'
@@ -82,7 +80,7 @@ stages:
             displayName: 'Use Python version'
 
           - task: AzureWebApp@1
-            displayName: 'kk48302-pipeline'
+            displayName: 'Deploy Azure Web App : test-app-kk48302'
             inputs:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
