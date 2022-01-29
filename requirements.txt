@@ -3,3 +3,4 @@ scikit-learn
 scipy
 numpy
 scikit_learn
+sklearn
